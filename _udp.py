@@ -1,5 +1,5 @@
 print("\033[1;31m"
-import sys
+
 import os
 import time
 import socket
