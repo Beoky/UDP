@@ -1,8 +1,5 @@
 print("\033[1;34m
 
-os.system("clear")
-os.system("figlet UDP")
-
 def UDP_ATTACK(threads, attack_time, target):
 	# Finish
 	global FINISH
